@@ -1,0 +1,40 @@
+Deep Learning-Based Prediction of Obesity Levels According to Eating Habits and Physical Condition 
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://dergipark.org.tr/tr/download/article-file/1777821
+
+Applications of Machine Learning Models to Predict and Prevent Obesity: A Mini-Review
+https://www.frontiersin.org/articles/10.3389/fnut.2022.933130/full
+
+Detection of Obesity Stages Using Machine Learning Algorithms 
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.iasj.net/iasj/download/c8170f191c6fd0c9
+
+Obesity prediction using machine learning techniques
+https://www.researchgate.net/publication/365408463_Obesity_prediction_using_machine_learning_techniques
+
+variable selection using Random Forest
+https://www.sciencedirect.com/science/article/pii/S0957417419303574?casa_token=4IIkGOVUvXoAAAAA:1BGFDSi4GzmPH-fA_zymWW6yaABD_1ogn-oYRtzpcFHSCKSAH_0XzKFqMIssnVB1JrQfoDGw
+
+optimization of distance in knn
+https://beei.org/index.php/EEI/article/view/1464/1303
+
+Feature selection for classification
+https://www.sciencedirect.com/science/article/abs/pii/S1088467X97000085
+
+Obesity Level Classification Based on Decision Tree and Naïve Bayes Classifiers
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://d1wqtxts1xzle7.cloudfront.net/101691926/175-Article_Text-1294-1-10-20220629-libre.pdf?1682933725=&response-content-disposition=inline%3B+filename%3DSule_Lamido_University_Journal_of_Scienc.pdf&Expires=1713328626&Signature=RxLYrgO4rfA68~nHrEQQg6MRh-euG85MV1rl6xwtCXLKsFZLknm6I5413Tm8e1J0e1jRSa6vhMf6zLWD8YpXTunw8V-6YIEAlt6ISaGnfgAFPX9sYi19P7yQydA5QqDqLvkm565q9kT8urCFTLPjcWh1Y6o0bJTRazoL1b0VFsmv9O3NVXTUdTneaR~jIWYboo7N9ZcqiAFvAyx9emT8RoosMzxlimOXGqAC7vSMbfx5OiSLrfn8sIHq7fK8cHGHeRkJt3ToPFGnk6Z7H797VdW5jv1tRnGeqQQWYctIIFH72BRDq-F0Mq7yEKaBoL36LYCermggjpMoE-s9OqcN9Q__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA
+
+Estimation of Obesity Levels with a Trained Neural Network Approach optimized by the Bayesian Technique
+https://www.mdpi.com/2076-3417/13/6/3875
+
+Logistic Regression Model Optimization and Case Analysis
+https://ieeexplore.ieee.org/abstract/document/8962457?casa_token=3wqQcKyt-T4AAAAA:_qDDDYi0BNcpz7M0RcjCLj4otNSDDPGpsBMDg6wtBeHurtO3RnUV8ZvYGYTzpGbnUIPMtV2-
+
+Feature selection using particle swarm optimization-based logistic regression model
+https://www.sciencedirect.com/science/article/pii/S0169743918303800?casa_token=wgc7vBcA4dYAAAAA:BKu3rCHtro33szrMCcCYgM13uAjZimf2rBa_w5XIJgL81gGVc1PUoB-naFvPxtV-w62uFCEO
+
+Class imbalance
+chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://www.researchgate.net/profile/Aida-Ali-4/publication/288228469_Classification_with_class_imbalance_problem_A_review/links/57b556d008ae19a365faff16/Classification-with-class-imbalance-problem-A-review.pdf
+
+Analysis of k-Fold Cross-Validation over Hold-Out Validation on Colossal Datasets for Quality Classification
+https://ieeexplore.ieee.org/document/7544814
+
+

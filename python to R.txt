@@ -1,0 +1,159 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('/kaggle/input/obesity-levels/ObesityDataSet_raw_and_data_sinthetic.csv')
+df.info()
+# Rename the columns
+df.columns[4:]
+df.rename(columns={'CALC':'Alcohol', 'FAVC' : 'High caloric food', 'FCVC':'vegetables meals', 'NCP':'No of meals', 'SCC':'Monitor calories' , 'SMOKE':'Smoke', 'CH2O':'Water intake frequency',
+       'family_history_with_overweight':'family_history', 'FAF':'Physical activity', 'TUE':'Tech usage', 'CAEC':'Snack', 'MTRANS':'Transportation',
+       'NObeyesdad':'Obesity_level'}, inplace = True)
+df.head(4)
+custom_colors = {'Insufficient_Weight':"#44ce1b",'Normal_Weight': 'green','Obesity_Type_I': 'yellow',  'Obesity_Type_II': '#FF681F',
+                 'Obesity_Type_III':'orange',
+                 'Overweight_Level_I':'#e51f1f','Overweight_Level_II':'darkred'}
+plt.figure(figsize=(10,8))
+data = df['Obesity_level'].value_counts().values.tolist()
+label = df['Obesity_level'].value_counts().index.tolist()
+plt.pie(data, labels = label, colors = [custom_colors[c] for c in label] ,autopct = '%.2f%%' , startangle = 180, explode=[0.3,0,0,0,0,0,0], shadow = True)
+
+for text in plt.gca().texts:
+    text.set_fontsize(15)
+plt.show()
+df_gender_OL = df.groupby(['Obesity_level', 'Gender']).size().unstack()
+plt.figure(figsize=(15, 10))  # Adjust figure size
+fig, axis = plt.subplots(figsize=(15, 10), nrows=1, ncols=2)
+
+Gender = ["Female", "Male"]
+for i in range(2):
+    X = df_gender_OL.index.tolist()
+    Y = df_gender_OL[Gender[i]].value_counts().index.tolist()
+    ax = sns.barplot(data=df_gender_OL, x=X, y=Y, ax=axis[i], hue=X, palette=custom_colors) 
+    for bar in ax.patches: 
+        bar.set_width(0.7)
+    axis[i].set_title(f'{Gender[i]} Obesity Level Distribution', fontsize=18)
+    axis[i].set_xlabel("Obesity Level", fontsize=15)
+    axis[i].set_ylabel(f'No of {Gender[i]}', fontsize=15)
+    axis[i].tick_params(axis='x', rotation=55)
+
+plt.tight_layout() 
+plt.show()
+df['Physical activity'] = df['Physical activity'].astype(int)
+df['Physical activity'].value_counts()
+plt.figure(figsize=(10,8)) 
+sns.barplot(data = df, x = df.Gender, y = df["Physical activity"] , hue = df.Obesity_level, palette = custom_colors)
+plt.show()
+col = ['Transportation', 'Physical activity', 'Snack', 'Alcohol', 'High caloric food', 'Smoke']
+
+# Create subplots
+fig, axes = plt.subplots(figsize=(15, 20), nrows=3, ncols=2)
+
+# Flatten the axes array for easier iteration
+axes = axes.flatten()
+
+# Loop over columns and plot countplots
+for i in range(len(col)):
+    sns.countplot(data=df, x=col[i], hue=df['Obesity_level'].values, palette=custom_colors, ax=axes[i])
+    axes[i].tick_params(axis='x', rotation=45)  # Rotate x-axis labels for better readability
+    axes[i].set_xlabel(f'{col[i]}',fontsize=20)
+    axes[i].set_title(f'Obesity Level vs {col[i]}', fontsize=22)
+
+# Adjust layout
+plt.tight_layout()
+plt.show()
+df.Obesity_level.value_counts()
+df1 = df[df['Obesity_level'] == 'Obesity_Type_I'] 
+df2 = df[df['Obesity_level'] == 'Obesity_Type_II'] 
+df3 = df[df['Obesity_level'] == 'Obesity_Type_III']
+df_O = pd.concat([df1,df2,df3])
+
+df4 = df[df['Obesity_level'] == 'Overweight_Level_I'] 
+df5 = df[df['Obesity_level'] == 'Overweight_Level_II'] 
+
+df_OW = pd.concat([df4,df5])
+
+df6 = df[df['Obesity_level'] == 'Insufficient_Weight'] 
+df7 = df[df['Obesity_level'] == 'Normal_Weight'] 
+df_U_N = pd.concat([df6,df7])
+df_U_N.reset_index(inplace=True)
+df_data = [df_U_N, df_OW, df_O]
+col = ['Height', 'vegetables meals', 'Water intake frequency']
+
+# Create subplots
+fig, axes = plt.subplots(figsize=(15, 20), nrows=3, ncols=3)
+
+# Flatten the axes array for easier iteration
+axes = axes.flatten()
+
+# Loop over columns and plot countplots
+for i, dataset in enumerate(df_data): 
+    for j in range(len(col)):
+        sns.histplot(data=dataset, x=col[j], hue=dataset['Obesity_level'], palette=custom_colors, ax=axes[i*len(col)+j], kde=True)
+        axes[i*len(col)+j].tick_params(axis='x', rotation=45)  
+        axes[i*len(col)+j].set_xlabel(f'{col[j]}',fontsize=15)
+        axes[i*len(col)+j].set_title(f'Obesity Level vs {col[j]}', fontsize=17)
+
+plt.tight_layout()
+plt.show()
+df.sort_values(by='Obesity_level').Obesity_level.values
+sns.countplot(data = df, x = df['Physical activity'])
+cols = ['Alcohol' , 'High caloric food','Monitor calories','Smoke','family_history','Physical activity','Transportation']
+df.Age = df.Age.astype(int)
+fig, axes = plt.subplots(figsize=(17, 25), nrows=4, ncols=2)
+axes = axes.flatten()
+
+for i in range(len(cols)):
+    sns.histplot(data=df, hue=df[cols[i]], x='Age', ax=axes[i], kde=True)
+    axes[i].set_ylabel(f'{cols[i]} frequency', fontsize=15)
+    axes[i].set_xlabel("Age", fontsize=15)
+    axes[i].set_title(f'Age vs {cols[i]}', fontsize=20)
+    plt.tight_layout()
+for j in range(len(cols), len(axes)):
+    axes[j].set_visible(False)
+plt.show()
+df
+cate = ['Alcohol','Gender','High caloric food','Monitor calories','Smoke','family_history','Snack','Transportation','Obesity_level']
+from sklearn.preprocessing import LabelEncoder
+encoder = LabelEncoder()
+for i in range(len(cate)):
+    df[cate[i]] = encoder.fit_transform(df[cate[i]]) 
+X = df.iloc[:,:-1].values
+y = df.iloc[:,-1].values
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,random_state =1, test_size = 0.3)
+from sklearn.preprocessing import StandardScaler
+scaler_x = StandardScaler()
+X_train = scaler_x.fit_transform(X_train)
+X_test = scaler_x.transform(X_test)
+from sklearn.linear_model import LogisticRegression
+cla = LogisticRegression(multi_class = 'multinomial', solver = 'lbfgs')
+cla.fit(X_train,y_train)
+y_pred = cla.predict(X_test)
+from sklearn.metrics import classification_report, accuracy_score, confusion_matrix
+print(classification_report(y_test,y_pred))
+print(accuracy_score(y_test,y_pred))
+print(confusion_matrix(y_test,y_pred))
+print(cla.score(X_train,y_train))
+print(cla.score(X_test,y_test))
+from sklearn.metrics import f1_score,accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+accuracy = []
+for i in range(1,6):
+    knn_cla = KNeighborsClassifier(n_neighbors=i)
+    knn_cla.fit(X_train,y_train)
+    knn_y_pred = knn_cla.predict(X_test)
+    accuracy.append(accuracy_score(y_test,knn_y_pred))
+accuracy.sort(reverse=True)
+plt.plot(range(1,6),accuracy)
+plt.xlabel('No of neighbors')
+plt.ylabel('Accuracy')
+print(f'Best accuracy is {max(accuracy)} when no of neighbors are 1')
+from sklearn.ensemble import RandomForestClassifier
+rf_cla = RandomForestClassifier(random_state=1, max_depth=10)
+rf_cla.fit(X_train, y_train)
+y_pred_rf_cla = rf_cla.predict(X_test)
+from sklearn.metrics import classification_report,accuracy_score, confusion_matrix
+print(classification_report(y_test,y_pred_rf_cla))
+print(accuracy_score(y_test,y_pred_rf_cla))
+print(confusion_matrix(y_test,y_pred_rf_cla))

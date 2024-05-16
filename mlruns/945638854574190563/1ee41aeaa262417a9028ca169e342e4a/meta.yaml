@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/1ee41aeaa262417a9028ca169e342e4a/artifacts
+end_time: 1715817207826
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: active
+run_id: 1ee41aeaa262417a9028ca169e342e4a
+run_name: RFC Optimized Base Model
+run_uuid: 1ee41aeaa262417a9028ca169e342e4a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715816775306
+status: 3
+tags: []
+user_id: Admin

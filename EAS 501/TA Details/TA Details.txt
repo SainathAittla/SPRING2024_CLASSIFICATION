@@ -1,0 +1,7 @@
+NOTE ignore this if you saw it before. I didn't have access to all the students on UB learns, now that's been fixed.
+
+Hello everyone,
+
+My name is luke and I'm your TA this semester for Numerical Mathematics for Data Scientists (EAS501). I have office hours Tuesday 11 am - 2pm and Thursday 1 pm - 4 pm in Furnas 805. This is a great time to come ask questions about homework, programing problems, the course in general, or whatever. There are 6 hours a week of office hours so please come and ask questions about assignments before they are due. I look forward to meeting you all and have a great semester!
+
+luke

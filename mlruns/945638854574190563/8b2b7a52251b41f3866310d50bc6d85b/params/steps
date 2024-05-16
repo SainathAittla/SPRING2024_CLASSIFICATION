@@ -1,0 +1,1 @@
+[('preprocessor', Preprocessor()), ('logisticregression', LogisticRegression(C=0.1, max_iter=200, solver='liblinear'))]

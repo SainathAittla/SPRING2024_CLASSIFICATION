@@ -1,0 +1,54 @@
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class Preprocessor(BaseEstimator, TransformerMixin): 
+    # Train our custom preprocessors 
+    numerical_columns = [
+        'longitude', 
+        'latitude', 
+        'housing_median_age', 
+        'total_rooms',
+        'total_bedrooms', 
+        'population', 
+        'households', 
+        'median_income', 
+    ]
+    categorical_columns = [
+        'ocean_proximity'
+    ]
+    
+    def fit(self, X, y=None): 
+
+        # Create and fit simple imputer
+        self.imputer = SimpleImputer(strategy='median')
+        self.imputer.fit(X[self.numerical_columns])
+        
+        # Create and fit Standard Scaler 
+        self.scaler = StandardScaler()
+        self.scaler.fit(X[self.numerical_columns]) 
+        
+        # Create and fit one hot encoder
+        self.onehot = OneHotEncoder(handle_unknown='ignore')
+        self.onehot.fit(X[self.categorical_columns])
+        
+        return self 
+
+    def transform(self, X): 
+        
+        # Apply simple imputer 
+        imputed_cols = self.imputer.transform(X[self.numerical_columns])
+        onehot_cols = self.onehot.transform(X[self.categorical_columns])
+        
+        # Copy the df 
+        transformed_df = X.copy()
+         
+        # Apply transformed columns
+        transformed_df[self.numerical_columns] = imputed_cols
+        transformed_df[self.numerical_columns] = self.scaler.transform(transformed_df[self.numerical_columns])        
+        
+        # Drop existing categorical columns and replace with one hot equivalent
+        transformed_df = transformed_df.drop(self.categorical_columns, axis=1) 
+        transformed_df[self.onehot.get_feature_names_out()] = onehot_cols.toarray().astype(int)
+        
+        return transformed_df

@@ -1,0 +1,735 @@
+---
+title: "EAS 508 Assignment 1-- Sainath Aittla, UB ID: 50557807"
+
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=TRUE}
+library(ISLR2)
+library(ggplot2)
+```
+
+In case you need to write math expression, please use the quick tutorial as the reference: https://www1.cmc.edu/pages/faculty/aaksoy/latex/latexthree.html
+
+# Question 1
+
+[5 pts] Describe a situation or problem from your job, everyday life, current events, etc., for which a classification model would be appropriate. List some (up to 5) predictors that you might use.
+
+**Solution to Question 1**
+
+Let's consider the problem of predicting customer churn for a subscription-based service, which is a common issue in the business world. Churn prediction involves identifying customers who are likely to cancel their subscriptions in the near future. By accurately predicting churn, companies can take proactive steps to retain customers, such as offering discounts, improving service quality, or addressing specific concerns.
+
+**Prediction:**
+Predicting customer churn for a subscription-based service (e.g., streaming services, software-as-a-service platforms, etc.).
+
+**Predictors:**
+
+**Usage Activity:** The frequency and duration of the service usage can be a strong indicator of customer engagement and satisfaction. Customers who use the service less frequently or for shorter durations may be more likely to churn.
+
+**Customer Support Interactions:** The number and nature of interactions with customer support can provide insights into customer satisfaction and potential issues. A high number of support tickets or complaints may indicate dissatisfaction, increasing the likelihood of churn.
+
+**Subscription Length:** The duration for which a customer has been subscribed to the service. Longer-term customers might have a lower propensity to churn compared to newer customers, who might still be evaluating the service.
+
+**Payment History:** Timeliness and regularity of payments can also serve as a predictor. Customers with late payments or irregular payment patterns may be experiencing dissatisfaction or financial issues, making them more likely to churn.
+
+**Plan Type:** The type of subscription plan a customer has chosen could influence their likelihood to churn. For instance, customers on a premium plan might be more engaged and less likely to leave compared to those on basic or trial plans.
+
+By leveraging these predictors, a **classification model can classify customers into those likely to churn and those likely to stay**, enabling targeted interventions to improve customer retention.
+
+
+# Question 2. 
+
+[5 pts] What's the main difference between supervised and unsupervised learning? Give one benefit and drawback for supervised and unsupervised learning, respectively.
+
+**Solution to Question 2**
+
+
+The main difference between supervised and unsupervised learning lies in the presence or absence of labeled data for training the model.
+
+**Supervised Learning:**
+**Definition:** Supervised learning involves training a model on a labeled dataset, which means that each training example is paired with an output label. The model learns to predict the output from the input data.
+
+**Benefit:** Since the model is trained with both input and output data, it can achieve high accuracy and is capable of making precise predictions on new, unseen data, provided the new data is similar to the training data.
+
+**Drawback:** It requires a large amount of labeled data, which can be time-consuming and expensive to acquire. Labeling data accurately requires domain expertise, making it challenging for tasks where expert knowledge is scarce or expensive to obtain.
+
+
+**Unsupervised Learning:**
+**Definition:** Unsupervised learning involves training a model on data without labeled responses. The goal is to discover underlying patterns or groupings in the data, such as clustering.
+
+**Benefit:** It does not require labeled data, making it useful for exploring and understanding complex data structures when the labels are unknown or difficult to obtain. This can lead to discovering insights that were not previously considered.
+
+**Drawback:** Without predefined labels, it can be challenging to evaluate the model's performance objectively. The outcomes of unsupervised learning are often more subjective and depend heavily on the interpretation of the results, which can vary from one observer to another.
+
+In summary, supervised learning is more directed and accurate for prediction tasks when labeled data is available, while unsupervised learning is more exploratory, ideal for discovering the inherent structure of the data when labels are not available.
+
+
+# Question 3 [18 pts]
+
+This question relates to the College data set, which can be found in the file College.csv in the folder. It contains a number of variables for 777 different universities and colleges in the US. The variables are
+
+-	Private : Public/private indicator
+-	Apps : Number of applications received
+-	Accept : Number of applicants accepted
+-	Enroll : Number of new students enrolled
+-	Top10perc : New students from top 10 % of high school class
+-	Top25perc : New students from top 25 % of high school class
+-	F.Undergrad : Number of full-time undergraduates
+-	P.Undergrad : Number of part-time undergraduates
+-	Outstate : Out-of-state tuition
+-	Room.Board : Room and board costs
+-	Books : Estimated book costs
+-	Personal : Estimated personal spending
+-	PhD : Percent of faculty with Ph.D.’s
+-	Terminal : Percent of faculty with terminal degree
+-	S.F.Ratio : Student/faculty ratio
+-	perc.alumni : Percent of alumni who donate
+-	Expend : Instructional expenditure per student
+-	Grad.Rate : Graduation rate
+
+Before reading the data into R, it can be viewed in Excel or a text editor.
+
+- (a). [2 pts] Use the read.csv() function to read the data into R. Call the loaded data college. Make sure that you have the directory set to the correct location for the data. 
+
+**Solution to Question 3(a)**
+
+
+```{r, echo=TRUE}
+college <- read.csv("College.csv")
+
+```
+
+- (b). [2 pts]	Look at the data using the View() function. You should notice that the first column is just the name of each university. We don’t really want R to treat this as data. However, it may be handy to have these names for later. Try the following commands:
+
+- `rownames(college) <- college[,1 ]`
+
+- `View(college)`
+
+You should see that there is now a row.names column with the name of each   
+university recorded. This means that R has given each row a name corresponding
+to the appropriate university. R will not try to perform calculations on the row 
+names. However, we still need to eliminate the first column in the data where the 
+names are stored. Try
+
+` >college <- college[, -1]`
+
+` > View(college)`
+
+Now you should see that the first data column is Private. Note that another column labeled row.names now appears before the Private column. However, this is not a data column but rather the name that R is giving to each row.
+
+**Solution to Question 3(b)**
+
+
+```{r, echo=TRUE}
+rownames(college) <- college[,1 ]
+college <- college[,-1]  #Removing rownames column
+private <- college$Private #storing private column
+college <- college[,-1]  #Removing Private column
+View(college)
+
+```
+
+- (c).
+   
+  - (i). [2 pts]  Use the `summary()` function to produce a numerical summary of the variables in the data set.
+  
+   ```{r, echo=TRUE}
+   summary(college)
+   ```
+   
+   - (ii). [2 pts] Use the `pairs()` function to produce a scatterplot matrix of the first ten columns or variables of the data. Recall that you can reference the first ten columns of a matrix A using A[,1:10]. Briefly state your observations.
+
+    ```{r, echo=TRUE}
+     college_subset <- college[, 1:10]
+     pairs(college_subset)
+    ```
+    **we can observe multi-collinearity between Accept,Enroll,F.Undergrad and Top10perc,Top20perc**
+
+   - (iii). [3 pts] Use the `plot()` function to produce side-by-side boxplots of Outstate versus Private. Briefly state your observations.
+
+```{r, echo=TRUE}
+boxplot(college$Outstate ~ private,
+ main = "Outstate Tuition by Private/Public",
+ xlab = "Private/Public",
+ ylab = "Outstate Tuition",
+ col = c("darkblue", "green"))
+```
+1.Private colleges often charge higher tuition fees for out-of-state students compared to public universities, a fact that is evident from the higher median tuition rates observed for private institutions.
+
+2.The tuition fees at private colleges vary more widely, as shown by the larger interquartile range (IQR) on their tuition fees, indicating a greater diversity in what private universities charge compared to their public counterparts.
+
+3.Both private and public colleges have outliers, with public colleges showing more pronounced outliers above the box plot's upper whisker. This indicates that some public colleges charge significantly higher out-of-state tuition fees than is typical for such institutions.
+
+4.Private institutions' tuition fees span a broader spectrum, as illustrated by the longer whiskers on their box plot, showing that while they generally charge more, there's considerable variability in their tuition fees.
+
+5.The median out-of-state tuition fee at private colleges is substantially higher than that at public colleges, reinforcing the widespread belief that private education costs more than public education.
+
+6.The box plot for private colleges is more symmetric around the median, indicating a more uniform distribution of tuition fees, whereas the plot for public universities shows a slight skew, with more data points falling towards the lower end of the tuition scale.
+
+  - (iv).[2 pts] Create a new qualitative variable, called Elite, by binning the Top10perc variable. We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10 % of their high school
+classes exceeds 50 %.
+
+`> Elite <- rep("No", nrow(college))`
+
+`> Elite[college$Top10perc > 50] <- "Yes"`
+
+`> Elite <- as.factor(Elite)`
+
+`> college <- data.frame(college , Elite)`
+
+Use the `summary()` function to see how many elite universities
+there are. Now use the `plot()` function to produce
+side-by-side boxplots of Outstate versus Elite.
+
+```{r, echo=TRUE}
+Elite <- rep("No", nrow(college))
+
+Elite[college$Top10perc > 50] <- "Yes"
+
+Elite <- as.factor(Elite)
+
+college <- data.frame(college , Elite)
+summary(college)
+plot(college$Outstate ~ college$Elite,
+     main = "Outstate Tuition Cost by Elite Status",
+     xlab = "Elite",
+     ylab = "Outstate",
+     col = c("blue", "red"))
+```
+
+  - (v)[2 pts] Use the hist() function to produce some histograms with differing numbers of bins for a few of the quantitative variables. You may find the command `par(mfrow = c(2, 2))` useful: it will divide the print window into four regions so that four plots can be made simultaneously. Modifying the arguments to this function will divide the screen in other ways.
+
+```{r, echo=TRUE}
+par(mfrow = c(2, 2))
+
+hist(college$Outstate, breaks = 15, main = "Outstate Tuition", xlab = "Tuition Cost", col = "lightblue")
+
+hist(college$Enroll, breaks = 30, main = "Enrollment", xlab = "Number of Students", col = "lightgreen")
+
+hist(college$PhD, breaks = 20, main = "Percent of Faculty with PhDs", xlab = "Percent", col = "lightcoral")
+
+hist(college$Grad.Rate, breaks = 25, main = "Graduation Rate", xlab = "Graduation Rate (%)", col = "lightgoldenrod")
+```
+
+  - (vi)[3 pts]. Continue exploring the data, and provide a brief summary
+of what you discover.
+
+The above image shows four histograms, each representing a different variable.
+
+**1.Outstate:** This histogram shows a righskewed distribution, indicating that a larger number of institutions charge lower outstate tution fees, with fewer institutions charging higher fees.The most frequent cost range appears to be between $5000 to $10000.
+
+**2.Enroll:** This histogram is also right-skewed, suggesting that most institutions have smaller enrollment size. There is a significant drop in frequency as the number of students increases, with very few institutions having enrollment numbers above 2500 students.
+
+**3.Percent of Faculty with PhDs:** The distribution is left-skewed, meaning most institutions have a higher percentage of faculty with PhDs. The mode of the distribution appears to be around 80-100%, indicating that many institutions have a high proportion of faculty with doctorate degrees.
+
+**4.Graduation Rate:** This histogram appears to be approximately normally distributed, centered around the 60-80% graduation rate. This suggests that the majority of institutions have a graduation rate within this range, with fewer institutions having very low or very high graduation rates.
+
+
+# Question 4 [16 pts]
+This exercise involves the Boston housing data set.
+
+   -  (a).[2 pts] To begin, load in the Boston data set. The Boston data set is part of the ISLR2 library.
+
+`> library(ISLR2)`
+
+Now the data set is contained in the object Boston.
+
+`> Boston`
+
+Read about the data set:
+
+`> ?Boston`
+
+How many rows are in this data set? How many columns? What do the rows and columns represent?
+
+```{r, echo=TRUE}
+library(ISLR2)
+data("Boston")
+head(Boston)
+?Boston
+dim(Boston)
+```
+**There are 506 rows and 13 columns in Boston Data Set**
+
+- (b).[2 pts] Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your findings.
+
+```{r, echo=TRUE}
+pairs(Boston)
+```
+**1.CRIM (per capita crime rate) vs. RAD (index of accessibility to radial highways):** Areas with better accessibility to highways have a higher crime rate due to increased traffic and urban density.
+
+**2.RM (average number of rooms per dwelling) vs. MEDV (median value of owner-occupied homes):** A positive correlation is found as homes with more rooms tend to be larger and more expensive.
+
+**3.AGE (proportion of owner-occupied units built prior to 1940) vs. DIS (weighted distances to five Boston employment centres):** Older regions are closer to the city center, indicating a potential inverse relationship.
+
+**4.NOX (nitric oxides concentration) vs. DIS:** There is a negative correlation, with higher pollution levels closer to employment centers and lower levels as distance increases.
+
+**5.LSTAT (% lower status of the population) vs. MEDV:** Typically, a higher percentage of "lower status" population correlates with lower property values, so a negative correlation is observed.
+
+**6.TAX (full-value property-tax rate per $10,000) vs. MEDV:** Areas with higher property taxes have higher home values, although this relationship can be complex due to various factors like school quality and public services.
+
+**7.PTRATIO (pupil-teacher ratio by town) vs. MEDV:** A lower pupil-teacher ratio, indicating better school attention, is correlated with higher home values.
+
+- (c).[2 pts] Are any of the predictors associated with per capita crime rate? If so, explain the relationship.
+
+Indeed, the pairwise scatterplots from the Boston Housing Data reveal correlations between the per capita crime rate (CRIM) and various factors:
+
+**Industrial Area Proportion (INDUS):** A positive link is observed between CRIM and INDUS, indicating that as the proportion of industrial land use in a town increases, so does the per capita crime rate. This suggests that areas with more industrial activity, which are often less residential, tend to experience higher crime rates.
+
+**Concentration of Nitric Oxides (NOX):** The data shows a positive association between CRIM and NOX, implying that regions with higher levels of nitric oxides, indicative of pollution and potentially higher industrial presence, see increased crime rates.
+
+**Share of Lower-Income Population (LSTAT):** A clear positive correlation exists between CRIM and LSTAT, where areas with a higher percentage of lower-income residents tend to have higher crime rates. This points to the socio-economic struggles of lower-income neighborhoods leading to more crime.
+
+**Home Values (MEDV):** An inverse correlation is suggested between CRIM and MEDV, where higher property values are generally linked to lower crime rates. This could indicate that wealthier areas, likely with better security measures or being more residential, experience less crime.
+
+**Proximity to Employment Centers (DIS):** A negative relationship is evident between CRIM and DIS, suggesting that areas further from job centers have lower crime rates. This may reflect the reality that central urban areas, closer to employment opportunities, have higher crime rates.
+
+**Age of Housing (AGE):** There is a positive correlation between CRIM and AGE, indicating that older neighborhoods may face higher crime rates.
+
+**Highway Accessibility (RAD):** A positive link is noted between CRIM and RAD, with areas that have better access to highways experiencing higher crime rates, possibly due to the increased ease of movement and potential for criminal escape.
+These findings contribute to a deeper understanding of the dynamics influencing crime rates in the Boston region.
+
+
+- (d)[2 pts] Do any of the census tracts of Boston appear to have particularly high crime rates? Tax rates? Pupil-teacher ratios? Comment on
+the range of each predictor.
+
+**Crime Rates (crim)**: There is often a wide range of crime rates with some census tracts having significantly higher rates than others. It's not uncommon to see a few tracts with exceptionally high crime rates, which might indicate areas with potential socio-economic challenges.
+
+**Tax Rates (tax):** The range of tax rates could also vary considerably, with some tracts having much higher rates. This might be due to differences in the fiscal needs or policies of the towns they represent.
+
+**Pupil-Teacher Ratios (ptratio):** The pupil-teacher ratio usually varies less dramatically than crime or tax rates but still shows a range that suggests differences in educational resources or town priorities.
+
+Considering that the median and maximum crime rate values are respectively about 0.26% and 89%, there are indeed some neighborhoods where the crime rate is alarmingly high
+
+**Therefore, 11% of the neighborhood’s have crime rates above 10%**
+
+**Therefore, 0.8% of the neighborhoods have crime rates above 50%**
+
+**Therefore, 73% of the neighborhood pay under $600**
+
+**Therefore, 27% of the neighborhood pay over $600**
+
+
+- (e)[1 pt] How many of the census tracts in this data set bound the Charles river?
+
+```{r, echo=TRUE}
+sum(Boston$chas) 
+```
+     **There are 35 census tracts in the Boston housing data set that bound the Charles River.**
+
+
+- (f)[1 pt] What is the median pupil-teacher ratio among the towns in this data set?
+```{r, echo=TRUE}
+median(Boston$ptratio)
+```
+**The median pupil-teacher ratio among the towns in the Boston housing data set is 19.05**
+
+
+
+- (g)[3 pts] Which census tract of Boston has lowest median value of owneroccupied homes? What are the values of the other predictors for that census tract, and how do those values compare to the overall ranges for those predictors? Comment on your findings.
+```{r, echo=TRUE}
+Boston[which.min(Boston$medv),]
+summary(Boston)
+```
+**The CRIM metric**, reflecting the crime rate, allows for comparison of a specific tract's crime level against the overall span from 0.00632 to 88.97620. Values nearing the upper limit suggest a higher likelihood of being a high-crime area.
+
+**For ZN**, the proportion of residential land zoned for larger lots, values at 0 or near it indicate minimal large-lot residential zoning, potentially affecting property values.
+
+**A higher INDUS figure**, approaching the maximum of 27.74, denotes a predominantly industrial area, potentially impacting the quality of living.
+
+**The CHAS variable**, indicating proximity to the Charles River (1 for yes), can influence real estate prices due to location desirability.
+
+**Elevated NOX levels**, near the high end of its range, may point to inferior air quality, often a result of industrial emissions.
+
+**Lower counts of RM**, particularly close to the bottom of its range, hint at smaller dwellings, usually associated with lower median home values.
+
+**An increased AGE** value signals a preponderance of older, owner-occupied housing, affecting property values based on the appeal and condition of such homes.
+
+**DIS values**, reflecting weighted distances to employment centers, with lower figures can suggest closeness to job centers but may also indicate potential for urban density issues.
+
+**High RAD scores**, indicating greater access to radial highways, could influence desirability either positively or negatively, depending on traffic and noise levels.
+
+**Elevated TAX figures**, particularly near their peak, imply higher property tax rates, potentially indicative of greater local government spending and possibly better area services.
+
+**A high PTRATIO**, especially at or close to its maximum, may indicate larger classroom sizes, which could be a marker for the educational quality.
+
+**Lastly, an increased LSTAT** percentage points to a higher portion of lower-income residents, typically linked with reduced home values.
+
+
+- (h)[3 pts] In this data set, how many of the census tracts average more than seven rooms per dwelling? More than eight rooms per dwelling? Comment on the census tracts that average more than eight rooms per dwelling.
+```{r, echo=TRUE}
+sum(Boston$rm > 7)
+sum(Boston$rm > 8)
+```
+In the dataset, 64 census tracts are characterized by an average dwelling size of more than 7 rooms, indicating a considerable segment of the dataset consists of relatively large homes. This characteristic suggests these areas may have higher living standards, as larger homes often accommodate bigger families or wealthier individuals, potentially leading to higher property values due to the appeal of spacious living areas.
+
+A more select group of 13 census tracts has homes averaging more than 8 rooms, indicating even larger and potentially more luxurious living spaces. These homes might be historic or located in highly sought-after areas, representing the pinnacle of housing in terms of size and possibly quality within the dataset.
+
+Census tracts with homes averaging over eight rooms are particularly significant for various reasons:
+
+**Affluence and Desirability:** These areas are likely among the most affluent, with larger homes typically being more costly and situated in coveted neighborhoods. They may feature extensive amenities, sizable plots, and more privacy.
+
+**Property Values:** A higher average room count suggests these areas boast higher median property values. Larger homes not only provide more space but are often built with superior materials and features, enhancing their value.
+
+**Community Characteristics:** Communities with such spacious homes are likely to have lower population densities, abundant greenery, and possibly reduced crime rates, all contributing to an enhanced living quality and neighborhood appeal.
+
+**Educational and Local Services:** These areas may benefit from well-funded services, such as schools and recreational facilities, thanks to the higher property taxes collected from the more valuable homes.
+
+**Historical Significance:** Some of these larger homes may have historical value, adding to their allure. However, this could also mean they require more maintenance and preservation efforts.
+
+Overall, the census tracts with dwellings averaging more than eight rooms likely stand out as the most prestigious and sought-after residential areas in the Boston dataset. They shed light on wealth distribution and housing quality within the region, underlining disparities in living standards across various communities. This information is valuable for research in urban planning, real estate development, and policy-making aimed at mitigating housing inequality.
+
+# Question 5. [6 pts]
+Suppose we have a data set with five predictors, $X1 = \text{GPA}, X2 =IQ, X3 = \text{Level (1 for College and 0 for High School)}, X4 =\text{Interaction between GPA and IQ, and }X5 = \text{Interaction between GPA and Level.}$ The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get $\hat{\beta}_0 = 50, \hat{\beta}_1 = 20, \hat{\beta}_2 = 0.07, \hat{\beta}_3 = 35, \hat{\beta}_4 = 0.01, \hat{\beta}_5 = −10$.
+
+- (a)[3 pts] Predict the salary of a college graduate with IQ of $110$ and a GPA of $4.0$.
+
+```{r, echo=TRUE}
+
+beta0 = 50
+beta1 = 20
+beta2 = 0.07
+beta3 = 35
+beta4 = 0.01
+beta5 = -10
+
+X1 = 4.0  # GPA
+X2 = 110  # IQ
+X3 = 1    # Level (College)
+X4 = X1 * X2  # Interaction between GPA and IQ
+X5 = X1 * X3  # Interaction between GPA and Level
+
+predicted_salary = beta0 + beta1*X1 + beta2*X2 + beta3*X3 + beta4*X4 + beta5*X5
+
+predicted_salary
+
+```
+
+- (b)[3 pts] True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.
+
+**False.** The size of the coefficient for the GPA/IQ interaction term by itself does not directly indicate the strength or evidence of an interaction effect in a regression model. The significance of an interaction effect is determined by its statistical significance, typically assessed through a hypothesis test (e.g., t-test) and evidenced by its p-value, rather than the magnitude of the coefficient alone.
+
+A small coefficient may still have a significant impact if it is statistically significant, meaning that the probability of observing such an effect by chance is low. Statistical significance is influenced by the sample size, variability of the data, and the scale of the predictors. Therefore, even a small coefficient can be meaningful and indicate a real interaction effect if it is statistically significant
+
+
+# Question 6. [34 pts]
+This question involves the use of multiple linear regression on the
+Auto data set.
+```{r, echo=TRUE}
+data(Auto)
+data<-Auto
+head(data)
+```
+
+- (a).[3 pts] Produce a scatterplot matrix which includes all numeric variables
+in the data set. Please give the interpretation of the plot.
+
+```{r, echo=TRUE}
+pairs(~ mpg + cylinders + displacement + horsepower + weight + acceleration + year + origin, data = Auto)
+
+```
+The scatterplot matrix provided gives a visual representation of pairwise relationships between the numeric variables in the dataset:
+
+**MPG (Miles per Gallon):** MPG appears to decrease with increases in cylinders, displacement, horsepower, and weight, indicating that vehicles with larger, more powerful engines and heavier weights tend to have lower fuel efficiency. MPG doesn't show a clear pattern with acceleration but seems to increase slightly over the years, suggesting newer models may have better fuel efficiency.
+
+**Cylinders:** There are distinct bands in the scatterplots involving cylinders, indicating that this variable is discrete (specific numbers of cylinders). Cylinders are positively correlated with displacement and horsepower, which is expected as engines with more cylinders typically have more displacement and produce more power.
+
+**Displacement:** Displacement shows a positive relationship with horsepower and weight, and a negative relationship with MPG, which is consistent with larger engines being more powerful and heavier but less fuel-efficient.
+
+**Horsepower:** Horsepower is positively associated with weight and displacement and negatively associated with MPG, indicating that more powerful cars are heavier and less fuel-efficient.
+
+**Weight:** Heavier cars tend to have more powerful engines (higher horsepower), larger displacement, and lower MPG. There is no clear relationship between weight and acceleration.
+
+**Acceleration:** There is no strong pattern observable with other variables, suggesting acceleration may be influenced by factors not shown here, or the relationship may be non-linear or weak.
+
+**Year:** Over time, there is a slight trend toward higher MPG and possibly lower displacement and horsepower, suggesting a move toward fuel efficiency.
+
+**Origin:** There are distinct bands, suggesting this is a categorical variable, likely indicating the region where the cars were manufactured. Origin does not show a clear linear pattern with other variables.
+
+The diagonal histograms show the distribution of each variable. Most variables appear to have a roughly normal or skewed distribution, except for cylinders and origin, which are categorical.
+
+- (b) [3 pts] Compute the matrix of correlations between the variables. You will need to exclude the name variable, which is qualitative. Explain your discoveries, find the top 1 predictors.
+
+```{r, echo=TRUE}
+df_numeric <- Auto[, -ncol(Auto)]
+
+cor_matrix <- cor(df_numeric)
+if(!require(corrplot)) install.packages("corrplot")
+library(corrplot)
+corrplot(cor_matrix, method = "circle", type = "upper", tl.col = "black", tl.srt = 45, addCoef.col = "black")
+
+top_predictor <- sort(abs(cor_matrix['mpg',]), decreasing = TRUE)[2]
+
+top_predictor_name <- names(top_predictor)
+
+top_predictor_name
+```
+Below are the discoveries for correlation matrix:
+
+**MPG (Miles per Gallon):**
+
+Has a strong negative correlation with cylinders, displacement, horsepower, and weight. This suggests that cars with more cylinders, larger engines, more horsepower, and greater weight tend to have lower fuel efficiency.
+Has a moderate positive correlation with acceleration, year, and origin. This indicates that cars with better acceleration, newer models, and those from certain origins (perhaps outside of the US, if origin '1' indicates US) tend to have higher fuel efficiency.
+
+**Cylinders:**
+
+Highly positively correlated with displacement, horsepower, and weight, indicating that vehicles with more cylinders tend to have larger engines, more power, and higher weight.
+Negatively correlated with acceleration, year, and origin, suggesting that vehicles with fewer cylinders tend to accelerate faster, are newer, and are less likely to be of US origin.
+
+**Displacement:**
+
+Shows a very strong positive correlation with horsepower and weight, and a high positive correlation with cylinders, indicating that larger displacement engines are more powerful, heavier, and typically have more cylinders.
+Negatively correlated with acceleration, year, and origin, suggesting that cars with smaller engines tend to be newer and possibly from origins other than the US.
+Horsepower:
+
+Highly positively correlated with weight and displacement, and strongly correlated with cylinders. More powerful engines are heavier and have more cylinders.
+Has a strong negative correlation with acceleration, indicating that cars with less horsepower tend to accelerate faster.
+
+**Weight:**
+
+Strongly positively correlated with displacement, horsepower, and cylinders, meaning heavier cars tend to have larger and more powerful engines with more cylinders.
+Negatively correlated with acceleration, year, and origin, indicating that lighter cars tend to be newer and possibly from origins other than the US.
+
+**Acceleration:**
+
+Positively correlated with year and origin, but negatively correlated with all the engine-related variables (cylinders, displacement, horsepower, and weight), suggesting that newer, lighter, and possibly foreign cars have better acceleration.
+Year:
+
+Positively correlated with mpg and acceleration, but negatively correlated with all engine-related variables and origin. This implies that newer models are more fuel-efficient and have better acceleration, and also there might have been changes in country of manufacture over the years.
+
+**Origin:**
+
+Positively correlated with mpg and acceleration, but negatively correlated with all engine-related variables, which could indicate that cars from certain regions are more fuel-efficient and have better acceleration characteristics.
+
+**Top Predictor for MPG:**
+
+Looking at the correlation coefficients for mpg, the variable with the strongest negative correlation is weight (-0.8322442), making it the top predictor for mpg among the variables listed. This means that the weight of a vehicle is the most strongly related single predictor of fuel efficiency, with heavier cars tending to be less fuel-efficient
+
+- (c)[6 pts] perform a simple linear regression use MPG as response and the top predictor. Produce diagnostic plots of the linear regression fit (similar as the ones we showed on class to check the assumptions of linear regression: linearity, normality, constant variance). Interpret your discoveries.
+
+```{r, echo=TRUE}
+model <- lm(mpg ~ weight, data=Auto)
+par(mfrow=c(2,2))
+plot(model$fitted.values, resid(model), xlab="Fitted values", ylab="Residuals")
+abline(h=0, col="red")
+qqnorm(resid(model))
+qqline(resid(model), col="red")
+plot(model$fitted.values, sqrt(abs(resid(model))), xlab="Fitted values", ylab="Sqrt(|Residuals|)")
+plot(hatvalues(model), resid(model), xlab="Leverage", ylab="Residuals")
+abline(h=0, col="red")
+par(mfrow=c(1,1))
+
+```
+The diagnostic plots provided are used to evaluate the assumptions of linear regression. Here's the interpretation of each plot:
+
+**Residuals vs Fitted Plot:**
+
+This plot is used to check the assumption of linearity and homoscedasticity (constant variance) of residuals.
+Ideally, the residuals should be randomly scattered around the horizontal line (red line) at zero, with no discernible pattern.
+In the provided plot, the residuals do not appear to have a clear pattern, which is good for linearity.
+However, there seems to be a slight "fanning" effect, where the spread of residuals increases with the fitted values. This could be an indication of heteroscedasticity.
+
+**Normal Q-Q Plot:**
+
+This plot checks whether the residuals are normally distributed.
+Points following the straight line (red line) indicate normality.
+The plot shows that lower and higher quantiles of residuals deviate from the line, suggesting that the residuals may have a non-normal distribution, particularly in the tails.
+
+**Scale-Location (or Spread-Location) Plot:**
+
+This plot is also used to check for homoscedasticity.
+The y-axis shows the square root of the absolute standardized residuals; a horizontal spread along the range of predictors indicates constant variance.
+The plot suggests some variation in spread across the range of fitted values, again indicating potential heteroscedasticity, as the spread increases with fitted values.
+
+**Residuals vs Leverage Plot:**
+
+This plot identifies influential cases that might have an undue influence on the regression line.
+Points far from the center of the plot horizontally are high leverage points, and points far from zero vertically are large residuals.
+The Cook's distance lines help to identify influential points. Any point outside the Cook's distance lines would be considered influential.
+There appear to be a few points with higher leverage, but without a clear Cook's distance line, it's hard to say if they are influential. The residuals do not show any extreme outliers.
+
+Overall, the diagnostic plots suggest that while the assumption of linearity is fairly well met, there are concerns regarding the normality of residuals and homoscedasticity. The residuals might not be perfectly normally distributed, especially in the tails, and there appears to be heteroscedasticity, as the spread of residuals increases with the fitted values. There are no obvious influential outliers based on the leverage plot, but further investigation might be warranted. These issues might be addressed with transformations or other adjustments to the model.
+
+
+
+- (d)[4 pts] Use the `lm()` function to perform a multiple linear regression with mpg as the response and all other variables except name as the predictors. Use the summary() function to print the results. Comment on the output. For instance:
+
+  - i. Is there a relationship between the predictors and the response?
+  
+  - ii. Which predictors appear to have a statistically significant relationship to the response?
+  
+  - iii. What does the coefficient for the year variable suggest?
+
+```{r, echo=TRUE}
+df_numeric <- Auto[, -which(names(Auto) == "name")]
+model <- lm(mpg ~ ., data = df_numeric)
+summary(model)
+
+```
+**(i)** Yes, there is a relationship between the predictors and the response. This is indicated by the F-statistic and its associated p-value (F-statistic: 252.4 on 7 and 384 DF, p-value: < 2.2e-16), which tests the null hypothesis that all regression coefficients are equal to zero. The very small p-value suggests that we can reject the null hypothesis and conclude that there is a statistically significant relationship between the predictors as a group and the response variable mpg.
+
+**(ii)** The predictors that have a statistically significant relationship with the response mpg at the 0.05 level (or lower) are:
+
+displacement (p-value: 0.00844, significant at the 0.01 level)
+
+weight (p-value: < 2e-16, highly significant)
+
+year (p-value: < 2e-16, highly significant)
+
+origin (p-value: 4.67e-07, highly significant)
+
+These variables' coefficients are significantly different from zero, indicating they have a unique contribution to the model in predicting mpg.
+
+**(iii)** The coefficient for the year variable is 0.750773, which is statistically significant (p-value: < 2e-16). This suggests that for each additional year, the mpg is expected to increase by approximately 0.75, holding all other variables constant. In other words, newer models of cars are expected to be more fuel-efficient, with a yearly improvement in mpg of about 0.75 miles per gallon. This reflects the trend over time of improving fuel efficiency in vehicles, potentially due to advancements in technology, regulatory changes, or other factors.
+  
+  
+- (e)[5 pts] Produce diagnostic plots of the linear regression fit. Comment on any problems you see with the fit. Do the residual plots suggest any unusually large outliers? Does the leverage plot identify any observations with unusually high leverage?
+
+```{r, echo=TRUE}
+model <- lm(mpg ~ ., data = df_numeric)
+par(mfrow=c(2,2))
+plot(model$fitted.values, resid(model), xlab="Fitted Values", ylab="Residuals")
+abline(h=0, col="red")
+qqnorm(resid(model))
+qqline(resid(model), col="red")
+plot(model$fitted.values, sqrt(abs(resid(model))), xlab="Fitted Values", ylab="Sqrt(|Residuals|)")
+plot(hatvalues(model), resid(model), xlab="Leverage", ylab="Residuals")
+abline(h=0, col="red")
+par(mfrow=c(1,1))
+
+```
+The diagnostic plots for the linear regression model give us insights into the presence of outliers and influential observations:
+
+**Residuals vs Fitted Plot:** This plot does not show any residuals that are dramatically larger than the others. While there are some points that lie outside the general cloud of points (a few above or below), they don't appear to be excessively distant from the zero line, suggesting no extremely large outliers in terms of residuals.
+
+**Normal Q-Q Plot:** This plot shows the residuals against their expected values if they were normally distributed. The points largely follow the reference line, with slight deviations at the tails. This is fairly typical and doesn't indicate any extreme outliers that are problematic for the normality assumption.
+
+**Scale-Location Plot:** The spread of residuals is fairly even across the range of fitted values, which suggests that the variance of residuals is relatively constant. There is no clear pattern indicating increasing or decreasing spread along the range of fitted values, so there's no immediate evidence of non-constant variance (heteroscedasticity).
+
+**Residuals vs Leverage Plot:** In this plot, there don't appear to be any points with extremely high leverage. Most data points are clustered towards the lower end of the leverage spectrum. A few points have higher leverage than the rest, but none are beyond commonly used cut-off values (e.g., a leverage value of 2(k+1)/n, where k is the number of predictors and n is the number of observations). The plot does not show points that are both high leverage and high residual (top right corner), which would be considered highly influential.
+
+In conclusion, based on these plots, there don't seem to be any observations with unusually large outliers in terms of residuals or unusually high leverage. Therefore, there might not be a need to remove any data points based on these diagnostics alone. However, slight deviations in the Q-Q plot may warrant a deeper look into the normality assumption, possibly with additional statistical tests.  
+  
+- (f) [5 pts] Fit a multiple linear regression model called model_tops using MPG as the response and the top 3 predicting variables with the strongest relationship with MPG. Compare the coefficients of the 3 predictor in model_tops with the model that used all numeric predictors, which ones are larger?  Why? 
+
+```{r, echo=TRUE}
+model_tops <- lm(mpg ~ weight + displacement + year, data=Auto)
+summary(model_tops)
+
+``` 
+To compare the coefficients of the 3 predictors in model_tops with those in the full model that used all numeric predictors, we can look at the estimates directly:
+
+From model_tops:
+
+weight: -0.006664 (strongly negative)
+displacement: 0.0002835 (close to zero, and not statistically significant with a p-value of 0.952382)
+year: 0.7580 (positive)
+
+From the full model:
+
+weight: -0.006474
+displacement: 0.019896
+year: 0.750773
+Comparing the coefficients:
+
+The coefficient for weight in model_tops is slightly larger (in absolute value) than in the full model. This suggests that when the model is simplified and only includes the top predictors, the impact of weight on MPG becomes slightly more pronounced. This could be due to the removal of other variables that were accounting for some of the variability in MPG that is actually due to weight.
+
+The coefficient for displacement in model_tops is much smaller than in the full model and is not statistically significant. This change suggests that displacement's effect in the full model may have been confounded with the effects of other variables that were not included in model_tops.
+
+The coefficient for year is slightly larger in model_tops compared to the full model, indicating a stronger relationship with MPG when the model is restricted to fewer predictors. Similar to weight, this could be because other variables in the full model were capturing some of the year's effect.
+
+The differences in the coefficients between the models can be due to several reasons:
+
+**Multicollinearity:** When multiple predictors in the model are correlated with each other, it can distort the apparent effect of each predictor on the response variable. Removing some predictors can change the estimated relationships.
+
+**Omitted Variable Bias:** If the full model includes variables that are important for predicting the response, then omitting these variables in a smaller model can bias the coefficients of the included predictors.
+
+**Overfitting:** The full model may have been overfitting the data, capturing noise rather than signal. This can inflate or deflate coefficients artificially, and when a simpler model is used, the coefficients may reflect the underlying relationship more accurately.
+
+In the given scenario, the change in the coefficient for displacement is the most dramatic, indicating that its relationship with MPG is not robust across different model specifications. Weight and year maintain their significance and direction of effect, with slight increases in their absolute impact on MPG in the simpler model.
+
+- (g)[3 pts] Use the * and : symbols to fit linear regression models with interaction effects. Do any interactions appear to be statistically
+significant?
+
+```{r, echo=TRUE}
+model_interaction <- lm(mpg ~ weight * displacement * year, data = Auto)
+summary(model_interaction)
+
+``` 
+
+In the model summary provided, we see several interaction terms included in the regression model. Here's an analysis of their statistical significance based on the provided p-values:
+
+weight:displacement (Interaction between weight and displacement):
+
+Estimate: -6.589e-05
+p-value: 0.1932
+This interaction term is not statistically significant at the conventional 0.05 level.
+weight:year (Interaction between weight and year):
+
+Estimate: -2.433e-04
+p-value: 0.1638
+This interaction term is not statistically significant at the conventional 0.05 level.
+displacement:year (Interaction between displacement and year):
+
+Estimate: -5.566e-03
+p-value: 0.0380
+This interaction term is statistically significant at the 0.05 level, indicating that the effect of displacement on MPG changes with the year.
+weight:displacement:year (Three-way interaction between weight, displacement, and year):
+
+Estimate: 1.144e-06
+p-value: 0.0944
+This three-way interaction term is not statistically significant at the conventional 0.05 level, but is marginally significant (p-value is less than 0.1).
+Based on these results, the only statistically significant interaction at the 0.05 level is between displacement and year. This suggests that the relationship between engine displacement and fuel efficiency (MPG) has changed over the years. The three-way interaction is marginally significant, suggesting there might be a more complex relationship between all three variables over time, but this result is not strong enough to be conclusive at the 0.05 level.
+
+- (h)[5 pts] Try a few different transformations of the variables, such as $\log(X), \sqrt{X}, X^2$. Comment on your findings.
+
+```{r, echo=TRUE}
+model_log <- lm(log(mpg) ~ log(weight) + log(displacement) + year, data = Auto)
+model_sqrt <- lm(sqrt(mpg) ~ sqrt(weight) + sqrt(displacement) + year, data = Auto)
+model_squared <- lm(mpg ~ I(weight^2) + I(displacement^2) + year, data = Auto)
+summary(model_log)
+summary(model_sqrt)
+summary(model_squared)
+
+``` 
+The model summaries for the three transformations show how each model performs with the transformed variables. Here's a summary of the findings:
+
+**Log-Transformed Model:**
+
+Adjusted R-squared: 0.8818, which indicates that about 88.18% of the variability in the log of mpg is explained by the model.
+Residual standard error: 0.1169, which is relatively low, suggesting a good fit.
+All predictors are statistically significant, with p-values less than 0.05.
+The coefficients for log(weight) and year are particularly significant, with a strong negative relationship for log(weight) and a positive relationship for year.
+
+**Square Root-Transformed Model:**
+
+Adjusted R-squared: 0.8584, which indicates that about 85.84% of the variability in the square root of mpg is explained by the model.
+Residual standard error: 0.3022, which is higher than the log-transformed model, suggesting a slightly worse fit.
+The predictors sqrt(weight) and year are statistically significant, but sqrt(displacement) is not (p-value: 0.128).
+
+**Squared Model:**
+
+Adjusted R-squared: 0.7633, which indicates that about 76.33% of the variability in mpg is explained by the model. This is lower than both the log-transformed and the square root-transformed models.
+Residual standard error: 3.797, which is higher than the other models, suggesting a less adequate fit.
+The squared term of weight is highly significant, while the squared term of displacement is not (p-value: 0.166). The year remains significant.
+
+**Interpretation of Findings:**
+
+The log transformation of both the response and predictors results in the highest adjusted R-squared value, which suggests that this transformation leads to a model that explains the variability in mpg more effectively than the other transformations.
+
+The significance of the year variable across all models reinforces the understanding that newer cars tend to be more fuel-efficient.
+
+The weight of the car consistently shows a strong negative effect on mpg across all models. However, the nature of the relationship (whether linear, logarithmic, or square root) changes the magnitude of the coefficient and the interpretation.
+
+The displacement does not appear to be a consistent predictor across the different transformations. While it is significant in the log model, it is not in the square root and squared models. This inconsistency may suggest that the relationship between displacement and mpg is not straightforward and may be influenced by other factors or interactions not captured in these models.
+
+The log-transformed model generally provides the best fit based on the summary statistics, suggesting that the relationship between the predictors and mpg is multiplicative or exponential rather than additive. This can be the case in many real-world scenarios where the effect of predictors on the response variable increases or decreases proportionally.
+
+In conclusion, the log transformation seems most appropriate for these data, as indicated by the model fit statistics. It would be beneficial to perform diagnostic checks on the log-transformed model to ensure that the residuals meet the assumptions of linear regression. Additionally, considering the context and the units of the variables, the log transformation may also provide a more interpretable model in terms of percentage changes rather than absolute changes.

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/57cfc6a12b8f42a19e38c8248c51b676/artifacts
+end_time: 1715824553049
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: active
+run_id: 57cfc6a12b8f42a19e38c8248c51b676
+run_name: Log Reg Optimized Model
+run_uuid: 57cfc6a12b8f42a19e38c8248c51b676
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715824125472
+status: 3
+tags: []
+user_id: Admin

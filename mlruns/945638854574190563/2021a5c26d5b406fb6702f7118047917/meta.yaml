@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/2021a5c26d5b406fb6702f7118047917/artifacts
+deleted_time: 1715834727359
+end_time: 1715830510018
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: deleted
+run_id: 2021a5c26d5b406fb6702f7118047917
+run_name: exultant-penguin-147
+run_uuid: 2021a5c26d5b406fb6702f7118047917
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715829681360
+status: 4
+tags: []
+user_id: Admin

@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/cbc518880a9740bd9c1f37a3fe4ff553/artifacts
+deleted_time: 1715814578843
+end_time: 1715814294076
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: deleted
+run_id: cbc518880a9740bd9c1f37a3fe4ff553
+run_name: legendary-stag-968
+run_uuid: cbc518880a9740bd9c1f37a3fe4ff553
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715813737272
+status: 3
+tags: []
+user_id: Admin

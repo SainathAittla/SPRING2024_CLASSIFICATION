@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1715814294042
+current_stage: None
+description: ''
+last_updated_timestamp: 1715814294042
+name: rfc_model_base
+run_id: cbc518880a9740bd9c1f37a3fe4ff553
+run_link: ''
+source: mlflow-artifacts:/945638854574190563/cbc518880a9740bd9c1f37a3fe4ff553/artifacts/classification_model
+status: READY
+status_message: null
+storage_location: mlflow-artifacts:/945638854574190563/cbc518880a9740bd9c1f37a3fe4ff553/artifacts/classification_model
+user_id: null
+version: 1

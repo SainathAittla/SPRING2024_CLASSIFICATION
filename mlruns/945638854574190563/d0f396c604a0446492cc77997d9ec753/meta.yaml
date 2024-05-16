@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/d0f396c604a0446492cc77997d9ec753/artifacts
+deleted_time: 1715834719950
+end_time: null
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: deleted
+run_id: d0f396c604a0446492cc77997d9ec753
+run_name: righteous-seal-723
+run_uuid: d0f396c604a0446492cc77997d9ec753
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715829631874
+status: 1
+tags: []
+user_id: Admin

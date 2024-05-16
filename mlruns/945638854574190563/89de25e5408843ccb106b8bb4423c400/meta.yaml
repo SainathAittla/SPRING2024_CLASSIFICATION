@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/89de25e5408843ccb106b8bb4423c400/artifacts
+deleted_time: 1715837112991
+end_time: 1715835933371
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: deleted
+run_id: 89de25e5408843ccb106b8bb4423c400
+run_name: sneaky-auk-286
+run_uuid: 89de25e5408843ccb106b8bb4423c400
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715835543550
+status: 4
+tags: []
+user_id: Admin

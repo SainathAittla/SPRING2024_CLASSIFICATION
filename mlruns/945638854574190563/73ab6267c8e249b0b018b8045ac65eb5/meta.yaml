@@ -1,0 +1,16 @@
+artifact_uri: mlflow-artifacts:/945638854574190563/73ab6267c8e249b0b018b8045ac65eb5/artifacts
+deleted_time: 1715835552601
+end_time: 1715834754224
+entry_point_name: ''
+experiment_id: '945638854574190563'
+lifecycle_stage: deleted
+run_id: 73ab6267c8e249b0b018b8045ac65eb5
+run_name: flawless-wren-438
+run_uuid: 73ab6267c8e249b0b018b8045ac65eb5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1715834312488
+status: 4
+tags: []
+user_id: Admin
