@@ -1,7 +1,0 @@
-artifact_location: mlflow-artifacts:/511054523007245817
-creation_time: 1715785776804
-experiment_id: '511054523007245817'
-last_update_time: 1715813706667
-lifecycle_stage: deleted
-name: Churn Prediction
-tags: {}
